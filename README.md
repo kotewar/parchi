@@ -278,5 +278,25 @@ real pharmacist corrections and `scripts/eval.py --condition tuned` will score a
 fine-tuned model, but the training run needs an API key. The correction history
 is already being collected, which is the part that cannot be synthesised later.
 
+## What this is not
+
+**It is not a medical device, and it does not decide anything clinically.** It
+reads what a doctor wrote and decides which lines are safe to hand over without
+a human re-reading the paper. It does not choose medicines, doses or durations,
+and it does not tell anyone to stop or change a treatment.
+
+The failure mode this whole project is built around is that a language model
+will produce a confidently wrong medicine name. The gate catches the wrongness
+this test set contains. **It has not seen the wrongness it has not seen.** Every
+line it is unsure about goes to a pharmacist, and the pharmacist checks the
+paper — the software's job is to make that list as short as it can while staying
+honest about what it is unsure of.
+
+Do not use this on real prescriptions without a pharmacist in the loop.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
+
 *All names, prescriptions and corrections in this repository are synthetic. No
 real patient data was used.*
