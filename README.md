@@ -10,6 +10,12 @@ safe to fill and which ones a human needs to check against the paper.
 The interesting part is not the reading. It is **deciding when not to trust the
 reading**.
 
+**Hosted demo:** [parchi-hub8.onrender.com](https://parchi-hub8.onrender.com).
+It runs on a free container with no GPU and no macOS, so it replays the recorded
+OCR transcript and reports `"method": "damped-mean"` rather than TabPFN. The
+gate, the stock plan and the counselling text all run for real there, and the
+page labels which parts are fixtures.
+
 ---
 
 ## The measurement this is built on
@@ -176,7 +182,7 @@ The pipeline degrades instead of failing:
 DEMO_MODE=true uvicorn app.main:app      # fixtures instead of calling Ollama
 ```
 
-`DEMO_MODE` is what the hosted demo runs. On Linux the OCR helper cannot be
+`DEMO_MODE` is what the [hosted demo](https://parchi-hub8.onrender.com) runs. On Linux the OCR helper cannot be
 built at all — `app/ocr.py` raises `OcrUnavailable` — so anything that needs a
 live page read will not run there. The gate, the stock plan and the counselling
 text do not need it.
