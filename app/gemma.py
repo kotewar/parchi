@@ -251,6 +251,12 @@ def _demo_prescription(page: OcrPage) -> Prescription:
     OCR transcript for the same page. Note that the diagnosis reads `HTN, T2DM`
     here while the OCR line reads `Ox: HTN, T2OM` -- the reconciliation of that
     line is the point of the whole pipeline.
+
+    The Glycomet line carries strength "GP2" rather than None, because that is
+    what the real extractor returns for this line and `GP2` is a legitimate
+    strength. Leaving it None made the gate report "tablet with no strength" on
+    a correct answer, which is the same false-alarm shape as the strength regex
+    bug: the fixture was less realistic than the model it stands in for.
     """
     return Prescription(
         image_path=page.image_path,
@@ -265,7 +271,7 @@ def _demo_prescription(page: OcrPage) -> Prescription:
                    strength="40mg", form="Tab", sig="1-0-0", days=30, quantity=30,
                    confidence=0.93),
             RxLine(raw="2. Tab Glycomet GP2 1-0-1 x 30 days", drug="Glycomet GP2",
-                   strength=None, form="Tab", sig="1-0-1", days=30, quantity=60,
+                   strength="GP2", form="Tab", sig="1-0-1", days=30, quantity=60,
                    confidence=0.88),
             RxLine(raw="3. Cap Pan 40 1-0-0 x15 days", drug="Pan", strength="40mg",
                    form="Cap", sig="1-0-0", days=15, quantity=15, confidence=0.71,
