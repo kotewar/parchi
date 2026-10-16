@@ -1,0 +1,9 @@
+# Optional, and deliberately not in requirements.txt.
+#
+# `pip install -r requirements-ml.txt` pulls torch and is roughly a 2 GB
+# install. Nothing breaks without it: app/tabpfn_engine.py degrades to a damped
+# moving average, which is roughly what a pharmacist does in his head anyway.
+#
+# The container on Render does not install this. It cannot run a 3.4 GB Ollama
+# model either, so it has no use for a GPU library.
+tabpfn>=2.0

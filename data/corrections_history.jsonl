@@ -1,0 +1,18 @@
+{"source":"synthetic_demo_seed","raw_ocr":"1. Tab Telrna 40mg 1-0-0 x 30 days","field":"drug","model_value":"Telrna","corrected_value":"Telma","drug_context":"Tab Telma 40mg","note":"m reads as rn in this handwriting"}
+{"source":"synthetic_demo_seed","raw_ocr":"Tab Telrna 40mg","field":"drug","model_value":"Telrna","corrected_value":"Telma","drug_context":"Tab Telma 40mg","note":""}
+{"source":"synthetic_demo_seed","raw_ocr":"2. Tab Glycomet 6P2 1-0-1 x 30 days","field":"drug","model_value":"Glycomet 6P2","corrected_value":"Glycomet GP2","drug_context":"Tab Glycomet GP2","note":"G reads as 6 when the pen lifts"}
+{"source":"synthetic_demo_seed","raw_ocr":"Tab Glycomet-6P1","field":"drug","model_value":"Glycomet 6P1","corrected_value":"Glycomet GP1","drug_context":"Tab Glycomet GP1","note":""}
+{"source":"synthetic_demo_seed","raw_ocr":"3. Cap Pan 4O 1-0-0 x 15 days","field":"strength","model_value":"4O","corrected_value":"40","drug_context":"Cap Pan","note":"zero is written with a slash, reads as O"}
+{"source":"synthetic_demo_seed","raw_ocr":"Tab Dolo 65O 1-1-1 x 5 days","field":"strength","model_value":"65O","corrected_value":"650","drug_context":"Tab Dolo","note":""}
+{"source":"synthetic_demo_seed","raw_ocr":"Tab Azithral 5OO 0-0-1 x 3 days","field":"strength","model_value":"5OO","corrected_value":"500","drug_context":"Tab Azithral","note":""}
+{"source":"synthetic_demo_seed","raw_ocr":"Tab Thyronorm 5Omcg 1-0-0 x 30 days","field":"strength","model_value":"5Omcg","corrected_value":"50mcg","drug_context":"Tab Thyronorm","note":"thyroid, check every time"}
+{"source":"synthetic_demo_seed","raw_ocr":"Tab Shelcal 5O0 1-0-0 x 30 days","field":"strength","model_value":"5O0","corrected_value":"500","drug_context":"Tab Shelcal","note":""}
+{"source":"synthetic_demo_seed","raw_ocr":"Tab Ecosprin 7S 1-0-0 x 30 days","field":"strength","model_value":"7S","corrected_value":"75","drug_context":"Tab Ecosprin","note":"5 has a flat top, reads as S"}
+{"source":"synthetic_demo_seed","raw_ocr":"Tab Amlopres 2.S 1-0-0 x 30 days","field":"strength","model_value":"2.S","corrected_value":"2.5","drug_context":"Tab Amlopres","note":""}
+{"source":"synthetic_demo_seed","raw_ocr":"Tab Rantac 15O 0-0-1 x 10 days","field":"strength","model_value":"15O","corrected_value":"150","drug_context":"Tab Rantac","note":""}
+{"source":"synthetic_demo_seed","raw_ocr":"Tab Atorva 1O 0-0-1 x 30 days","field":"strength","model_value":"1O","corrected_value":"10","drug_context":"Tab Atorva","note":""}
+{"source":"synthetic_demo_seed","raw_ocr":"Cap Novamox 25O 0-0-1 x 5 days","field":"strength","model_value":"25O","corrected_value":"250","drug_context":"Cap Novamox","note":""}
+{"source":"synthetic_demo_seed","raw_ocr":"Tab Montck LC 1-0-0 x 10 days","field":"drug","model_value":"Montck LC","corrected_value":"Montek LC","drug_context":"Tab Montek LC","note":"e dropped between consonants"}
+{"source":"synthetic_demo_seed","raw_ocr":"Tab Cetzine 1Omg 1-0-0 x 5 days","field":"strength","model_value":"1Omg","corrected_value":"10mg","drug_context":"Tab Cetzine","note":""}
+{"source":"synthetic_demo_seed","raw_ocr":"Tab Telmikind-N 1-0-0 x 30 days","field":"drug","model_value":"Telmikind-N","corrected_value":"Telmikind-H","drug_context":"Tab Telmikind-H","note":"H is a diuretic, N is not a product"}
+{"source":"synthetic_demo_seed","raw_ocr":"Tab Glycomet-GP1 l-0-l x 30 days","field":"sig","model_value":"l-0-l","corrected_value":"1-0-1","drug_context":"Tab Glycomet GP1","note":"ones and ells; the sig not the drug"}

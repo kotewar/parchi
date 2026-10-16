@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# Secrets. Never commit these.
+.env
+.env.*
+!.env.example
+
+# The shop's own data. It stays on the shop's machine, which is the whole point.
+pharmacy.db
+*.db
+*.sqlite3
+data/*.db
+
+# Compiled OCR helper. Build it from source: see README.
+bin/
+
+# Eval scratch output. Reproduce it with scripts/eval.py rather than trusting a
+# stale file. The two runs the writeup actually cites are kept, because a claim
+# and the numbers behind it should be reviewable side by side.
+#
+# Note the suffixed files from the earlier harness are deliberately NOT kept --
+# they were scored by a strength comparison that was buggy, and committing them
+# next to the corrected ones would only invite someone to cite the wrong one.
+eval_*.json
+!eval_base_v2.json
+!eval_primed_v2.json
+
+# Installed third-party agent skills. Dev tooling, not project code.
+.agents/
+skills-lock.json
+
+# macOS
+.DS_Store

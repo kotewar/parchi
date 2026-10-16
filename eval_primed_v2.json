@@ -1,0 +1,442 @@
+[
+  {
+    "label": "primed (shop history)",
+    "model": "gemma3:4b",
+    "history_k": 4,
+    "n": 20,
+    "repaired": 13,
+    "refused": 1,
+    "echoed_garbage": 3,
+    "silent_wrong": 3,
+    "dangerous": 6,
+    "dangerous_rate": 0.3,
+    "gate_caught": 6,
+    "gate_missed": 0,
+    "missed_ids": [],
+    "total_seconds": 345.17619132995605,
+    "results": [
+      {
+        "id": "telma-m-to-rn",
+        "bucket": "repaired",
+        "drug": "Telma",
+        "confidence": 0.95,
+        "strength": "40mg",
+        "strength_ok": true,
+        "reason": "high confidence, known misread",
+        "answer": {
+          "drug": "Telma",
+          "strength": "40mg",
+          "sig": "1-0-0",
+          "days": 30,
+          "confidence": 0.95,
+          "reason": "high confidence, known misread"
+        },
+        "gate_problems": [],
+        "gate_catches": false,
+        "seconds": 19.968751192092896
+      },
+      {
+        "id": "telma-clean",
+        "bucket": "repaired",
+        "drug": "Telma",
+        "confidence": 0.95,
+        "strength": "40mg",
+        "strength_ok": true,
+        "reason": "High confidence, clear reading, common medication",
+        "answer": {
+          "drug": "Telma",
+          "strength": "40mg",
+          "sig": "1-0-0",
+          "days": 30,
+          "confidence": 0.95,
+          "reason": "High confidence, clear reading, common medication"
+        },
+        "gate_problems": [],
+        "gate_catches": false,
+        "seconds": 14.622560024261475
+      },
+      {
+        "id": "glycomet-g-to-6",
+        "bucket": "echoed_garbage",
+        "drug": "Glycomet",
+        "confidence": 0.95,
+        "strength": "6P2",
+        "strength_ok": false,
+        "reason": "high confidence, known medication",
+        "answer": {
+          "drug": "Glycomet",
+          "strength": "6P2",
+          "sig": "1-0-1",
+          "days": 30,
+          "confidence": 0.95,
+          "reason": "high confidence, known medication"
+        },
+        "gate_problems": [
+          "strength '6P2' does not parse as a strength"
+        ],
+        "gate_catches": true,
+        "seconds": 14.373008966445923
+      },
+      {
+        "id": "pan-o-for-zero",
+        "bucket": "repaired",
+        "drug": "Pan",
+        "confidence": 0.95,
+        "strength": "40",
+        "strength_ok": true,
+        "reason": "High confidence, likely correct based on previous corrections",
+        "answer": {
+          "drug": "Pan",
+          "strength": "40",
+          "sig": "1-0-0",
+          "days": 15,
+          "confidence": 0.95,
+          "reason": "High confidence, likely correct based on previous corrections"
+        },
+        "gate_problems": [],
+        "gate_catches": false,
+        "seconds": 14.859124898910522
+      },
+      {
+        "id": "dolo-o-for-zero",
+        "bucket": "repaired",
+        "drug": "Dolo",
+        "confidence": 0.95,
+        "strength": "650",
+        "strength_ok": true,
+        "reason": "High confidence, likely a standard strength of a common painkiller. The OCR is simply misreading the number 650 as '65O'",
+        "answer": {
+          "drug": "Dolo",
+          "strength": "650",
+          "sig": "1-1-1",
+          "days": 5,
+          "confidence": 0.95,
+          "reason": "High confidence, likely a standard strength of a common painkiller. The OCR is simply misreading the number 650 as '65O'"
+        },
+        "gate_problems": [],
+        "gate_catches": false,
+        "seconds": 17.853697061538696
+      },
+      {
+        "id": "azithral-o-for-zero",
+        "bucket": "repaired",
+        "drug": "Azithral",
+        "confidence": 0.95,
+        "strength": "500",
+        "strength_ok": true,
+        "reason": "High confidence, likely correct based on previous corrections and the format of the prescription",
+        "answer": {
+          "drug": "Azithral",
+          "strength": "500",
+          "sig": "0-0-1",
+          "days": 3,
+          "confidence": 0.95,
+          "reason": "High confidence, likely correct based on previous corrections and the format of the prescription"
+        },
+        "gate_problems": [],
+        "gate_catches": false,
+        "seconds": 15.451190948486328
+      },
+      {
+        "id": "thyronorm-o-for-zero",
+        "bucket": "repaired",
+        "drug": "Thyronorm",
+        "confidence": 0.95,
+        "strength": "50mcg",
+        "strength_ok": true,
+        "reason": "High confidence, known medication, standard strength, and dosage. The OCR error is minor (one digit misread).",
+        "answer": {
+          "drug": "Thyronorm",
+          "strength": "50mcg",
+          "sig": "1-0-0",
+          "days": 30,
+          "confidence": 0.95,
+          "reason": "High confidence, known medication, standard strength, and dosage. The OCR error is minor (one digit misread)."
+        },
+        "gate_problems": [],
+        "gate_catches": false,
+        "seconds": 17.724332809448242
+      },
+      {
+        "id": "shelcal-o-for-zero",
+        "bucket": "repaired",
+        "drug": "Shelcal",
+        "confidence": 0.95,
+        "strength": "500",
+        "strength_ok": true,
+        "reason": "High confidence, likely a standard dosage of a calcium supplement. The OCR is simply misreading the number 500 as 'O'",
+        "answer": {
+          "drug": "Shelcal",
+          "strength": "500",
+          "sig": "1-0-0",
+          "days": 30,
+          "confidence": 0.95,
+          "reason": "High confidence, likely a standard dosage of a calcium supplement. The OCR is simply misreading the number 500 as 'O'"
+        },
+        "gate_problems": [],
+        "gate_catches": false,
+        "seconds": 18.847579956054688
+      },
+      {
+        "id": "ecosprin-s-for-five",
+        "bucket": "silent_wrong",
+        "drug": "Ecosprin",
+        "confidence": 0.95,
+        "strength": "7S",
+        "strength_ok": false,
+        "reason": "High confidence, likely a standard prescription format. The OCR is likely misreading '7S' as '75' but the presence of 'Ecosprin' suggests a real medicine and strength.",
+        "answer": {
+          "drug": "Ecosprin",
+          "strength": "7S",
+          "sig": "1-0-0",
+          "days": 30,
+          "confidence": 0.95,
+          "reason": "High confidence, likely a standard prescription format. The OCR is likely misreading '7S' as '75' but the presence of 'Ecosprin' suggests a real medicine and strength."
+        },
+        "gate_problems": [
+          "strength '7S' does not parse as a strength (looks like '75' with a letter misread for a digit)"
+        ],
+        "gate_catches": true,
+        "seconds": 20.94540286064148
+      },
+      {
+        "id": "amlopres-s-for-five",
+        "bucket": "repaired",
+        "drug": "Amlopres",
+        "confidence": 0.95,
+        "strength": "2.5",
+        "strength_ok": true,
+        "reason": "High confidence, consistent with previous corrections for this pharmacy",
+        "answer": {
+          "drug": "Amlopres",
+          "strength": "2.5",
+          "sig": "1-0-0",
+          "days": 30,
+          "confidence": 0.95,
+          "reason": "High confidence, consistent with previous corrections for this pharmacy"
+        },
+        "gate_problems": [],
+        "gate_catches": false,
+        "seconds": 17.394315004348755
+      },
+      {
+        "id": "rantac-o-for-zero",
+        "bucket": "repaired",
+        "drug": "Rantac",
+        "confidence": 0.95,
+        "strength": "150",
+        "strength_ok": true,
+        "reason": "High confidence, likely a standard dosage of Rantac",
+        "answer": {
+          "drug": "Rantac",
+          "strength": "150",
+          "sig": "0-0-1",
+          "days": 10,
+          "confidence": 0.95,
+          "reason": "High confidence, likely a standard dosage of Rantac"
+        },
+        "gate_problems": [],
+        "gate_catches": false,
+        "seconds": 17.920949935913086
+      },
+      {
+        "id": "cetzine-clean",
+        "bucket": "repaired",
+        "drug": "Cetzine",
+        "confidence": 0.95,
+        "strength": "10mg",
+        "strength_ok": true,
+        "reason": "High confidence, likely correct based on previous corrections and the clear format",
+        "answer": {
+          "drug": "Cetzine",
+          "strength": "10mg",
+          "sig": "1-0-0",
+          "days": 5,
+          "confidence": 0.95,
+          "reason": "High confidence, likely correct based on previous corrections and the clear format"
+        },
+        "gate_problems": [],
+        "gate_catches": false,
+        "seconds": 17.904802083969116
+      },
+      {
+        "id": "glycomet-l-for-one",
+        "bucket": "silent_wrong",
+        "drug": "Glycomet-GP1",
+        "confidence": 0.95,
+        "strength": "string or null",
+        "strength_ok": false,
+        "reason": "high confidence, likely correct",
+        "answer": {
+          "drug": "Glycomet-GP1",
+          "strength": "string or null",
+          "sig": "l-0-l",
+          "days": 30,
+          "confidence": 0.95,
+          "reason": "high confidence, likely correct"
+        },
+        "gate_problems": [
+          "strength 'string or null' does not parse as a strength",
+          "dosing pattern 'l-0-l' is not a morning-afternoon-night pattern"
+        ],
+        "gate_catches": true,
+        "seconds": 17.314328908920288
+      },
+      {
+        "id": "atorva-o-for-zero",
+        "bucket": "silent_wrong",
+        "drug": "Atorvastatin",
+        "confidence": 0.95,
+        "strength": "10",
+        "strength_ok": true,
+        "reason": "High confidence, likely a standard prescription for Atorvastatin 10mg",
+        "answer": {
+          "drug": "Atorvastatin",
+          "strength": "10",
+          "sig": "Tab",
+          "days": 30,
+          "confidence": 0.95,
+          "reason": "High confidence, likely a standard prescription for Atorvastatin 10mg"
+        },
+        "gate_problems": [
+          "'Atorvastatin' does not appear on the page as written (OCR line reads: '13. Tab Atorva 1O 0-0-1 x 30 days')",
+          "dosing pattern 'Tab' is not a morning-afternoon-night pattern"
+        ],
+        "gate_catches": true,
+        "seconds": 17.615304946899414
+      },
+      {
+        "id": "zerodol-clean",
+        "bucket": "repaired",
+        "drug": "Zerodol-SP",
+        "confidence": 0.95,
+        "strength": "1-0-1",
+        "strength_ok": null,
+        "reason": "High confidence, likely correct based on previous corrections and the format of the prescription",
+        "answer": {
+          "drug": "Zerodol-SP",
+          "strength": "1-0-1",
+          "sig": "x 5 days",
+          "days": 5,
+          "confidence": 0.95,
+          "reason": "High confidence, likely correct based on previous corrections and the format of the prescription"
+        },
+        "gate_problems": [
+          "dosing pattern 'x 5 days' is not a morning-afternoon-night pattern"
+        ],
+        "gate_catches": true,
+        "seconds": 17.790851831436157
+      },
+      {
+        "id": "telmikind-h",
+        "bucket": "echoed_garbage",
+        "drug": "Telmikind",
+        "confidence": 0.95,
+        "strength": "1-0-0",
+        "strength_ok": null,
+        "reason": "High confidence, likely correct based on previous corrections",
+        "answer": {
+          "drug": "Telmikind",
+          "strength": "1-0-0",
+          "sig": "x 30 days",
+          "days": 30,
+          "confidence": 0.95,
+          "reason": "High confidence, likely correct based on previous corrections"
+        },
+        "gate_problems": [
+          "dosing pattern 'x 30 days' is not a morning-afternoon-night pattern"
+        ],
+        "gate_catches": true,
+        "seconds": 17.05207586288452
+      },
+      {
+        "id": "montck-dropped-e",
+        "bucket": "echoed_garbage",
+        "drug": "Montck LC",
+        "confidence": 0.9,
+        "strength": null,
+        "strength_ok": false,
+        "reason": "high confidence, likely a brand name drug",
+        "answer": {
+          "drug": "Montck LC",
+          "strength": null,
+          "sig": null,
+          "days": 10,
+          "confidence": 0.9,
+          "reason": "high confidence, likely a brand name drug"
+        },
+        "gate_problems": [
+          "no dosing pattern (sig)",
+          "'Montck LC' is not in this shop's stock list"
+        ],
+        "gate_catches": true,
+        "seconds": 15.963248014450073
+      },
+      {
+        "id": "novamox-wrong-digit",
+        "bucket": "repaired",
+        "drug": "Novamox",
+        "confidence": 0.95,
+        "strength": "250",
+        "strength_ok": true,
+        "reason": "High confidence, likely a standard dosage of Novamox",
+        "answer": {
+          "drug": "Novamox",
+          "strength": "250",
+          "sig": "0-0-1",
+          "days": 5,
+          "confidence": 0.95,
+          "reason": "High confidence, likely a standard dosage of Novamox"
+        },
+        "gate_problems": [],
+        "gate_catches": false,
+        "seconds": 16.96969985961914
+      },
+      {
+        "id": "insulin-units-word",
+        "bucket": "repaired",
+        "drug": "Insulin",
+        "confidence": 0.95,
+        "strength": "10",
+        "strength_ok": true,
+        "reason": "High confidence, likely correct based on previous corrections and the context of an Indian pharmacy prescription",
+        "answer": {
+          "drug": "Insulin",
+          "strength": "10",
+          "sig": "units 0-0-1",
+          "days": 10,
+          "confidence": 0.95,
+          "reason": "High confidence, likely correct based on previous corrections and the context of an Indian pharmacy prescription"
+        },
+        "gate_problems": [
+          "dosing pattern 'units 0-0-1' is not a morning-afternoon-night pattern"
+        ],
+        "gate_catches": true,
+        "seconds": 18.295127153396606
+      },
+      {
+        "id": "unknown-illegible",
+        "bucket": "refused",
+        "drug": null,
+        "confidence": 0.8,
+        "strength": "null",
+        "strength_ok": null,
+        "reason": "high confidence, but no drug name detected",
+        "answer": {
+          "drug": "null",
+          "strength": "null",
+          "sig": "1-0-0",
+          "days": 7,
+          "confidence": 0.8,
+          "reason": "high confidence, but no drug name detected"
+        },
+        "gate_problems": [
+          "no medicine name recovered from the page",
+          "strength 'null' does not parse as a strength"
+        ],
+        "gate_catches": true,
+        "seconds": 16.309839010238647
+      }
+    ]
+  }
+]

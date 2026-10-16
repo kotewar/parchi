@@ -1,0 +1,46 @@
+# The hosted demo. This is NOT the deployment -- the real one runs on the shop's
+# own laptop, which is the entire point of the project. This exists so the
+# decision layer can be looked at without an Intel Mac and a 3.4 GB model.
+#
+# Two things cannot run here and the page says so rather than hiding it:
+#   - the OCR is macOS Vision and this is Linux, so the transcript served is a
+#     real recorded one (app/demo_data.py), not a live read;
+#   - the model is 3.4 GB and the free plan has no accelerator, so DEMO_MODE
+#     serves its step from deterministic fixtures.
+# Everything else -- the gate, the stock plan, the counselling -- is live code.
+
+services:
+  - type: web
+    name: parchi
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+
+      # Serves the model's step from fixtures. Set to false only on a machine
+      # that is actually running Ollama.
+      - key: DEMO_MODE
+        value: "true"
+
+      # Ephemeral on the free plan, which is fine: the store is reseeded from
+      # demo_data on startup. A real deployment keeps this file on the shop's disk.
+      - key: DATABASE_PATH
+        value: /tmp/pharmacy.db
+
+      - key: GEMMA_MODEL
+        value: gemma3:4b
+      - key: CONFIDENCE_THRESHOLD
+        value: "0.8"
+
+      # Set these in the Render dashboard if you want the counselling audio to
+      # actually render. Without them the text is still produced and returned.
+      - key: ELEVENLABS_API_KEY
+        sync: false
+      - key: ELEVENLABS_VOICE_ID
+        sync: false
+      - key: SENTRY_DSN
+        sync: false

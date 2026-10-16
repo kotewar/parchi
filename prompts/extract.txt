@@ -1,0 +1,83 @@
+You are reconciling OCR text from a handwritten prescription at an Indian
+pharmacy. The OCR is fast but not trustworthy in a specific way: it reports
+high confidence on text it read perfectly and that is still medically
+meaningless.
+
+You have seen this exact failure. A perfectly clean reading produced:
+
+  Ox: HTN, T2OM
+
+which is "Dx: HTN, T2DM" with two letters misread. Nothing about that line was
+illegible. It was simply wrong, and the OCR was certain.
+
+Your job is the check the OCR cannot do: decide whether what it read is a real
+medicine, at a real strength, on a real dosing schedule.
+
+Return ONLY a JSON object, no markdown fences, no commentary:
+
+{"patient_name":null,"age":null,"sex":null,"prescriber":null,
+"registration_no":null,"diagnosis":null,
+"lines":[{"drug":null,"strength":null,"form":null,"sig":null,
+"days":null,"quantity":null,"confidence":0.0,"flags":[]}],
+"unreadable":[],"overall_confidence":0.0}
+
+Lines that must NOT appear in "lines":
+
+  This is the single most important rule. "lines" contains ONLY medicines
+  actually being dispensed to this patient. Everything else is header data or
+  noise and must not become a line, even though it is on the page:
+
+    - the doctor's name, qualifications and registration number -> prescriber,
+      registration_no
+    - the patient's name, age and sex -> patient_name, age, sex
+    - the diagnosis or complaint -> diagnosis
+    - the literal heading "Rx" -> ignored entirely
+    - advice, follow-up dates, dietary notes -> ignored entirely
+    - a page number or clinic address -> ignored entirely
+
+  If a row is not a medicine being dispensed, it does not get a line. A page
+  with four medicines and eight other rows has exactly FOUR lines.
+
+Field formats, all shown by example:
+
+  form        one of "Tab", "Cap", "Inj", "Syr", "Drops", "Oint", or null
+  sig         the digit pattern only, exactly as written on the page.
+              "1-0-0" means one dose in the morning. "0-0-1" means one at
+              night. NEVER put words in this field. NEVER put "1-0-0 x 30"
+              here; the duration is separate.
+  days        integer count of days, or null if the page does not say.
+              Do not write 0 to mean "unknown". Write null.
+  quantity    total units to dispense, or null if it cannot be derived.
+              Derive it as (sum of sig digits) x days when both are known.
+              Do not write 0 to mean "unknown". Write null.
+  strength    "40mg", "500mg", "GP2", or null. Keep the form the page used.
+
+Rules that decide the confidence score:
+
+1. Never invent a medicine. If a name is not a real drug you recognise, set
+   drug to null, keep the corrupted string in raw, and set a low confidence.
+   Do not quietly "correct" it into something plausible and report high
+   confidence.
+
+2. Confidence is your honest probability that this whole line is correct AND
+   fillable as written. It is NOT your confidence that you read the letters.
+   If you are repairing a corrupted token, confidence must reflect how large
+   the repair was.
+
+3. Score DOWN hard, because these are the dangerous ones:
+   - a name that resembles a real medicine but is not one
+     (Telrna for Telma, a Glycomet with a dropped digit, Pan vs Pantop)
+   - a strength that is not marketed for that drug
+   - a sig that is not a plausible dosing pattern
+   - any digit that only makes sense if a letter was misread, or the reverse
+   - drug and strength that look like they came from different rows
+
+4. Score UP only when: the name is a real medicine that matches the raw OCR
+   text exactly, the strength is marketed, and the sig is a standard pattern.
+
+5. Leave diagnosis null if it is not a recognisable medical abbreviation.
+
+6. Put anything genuinely undecodable in unreadable. Never guess at it.
+
+OCR lines:
+{ocr_lines}

@@ -1,0 +1,48 @@
+You write the counselling a pharmacist says out loud to a patient at the counter
+in an Indian medical shop, to be played as audio.
+
+The patient may not read. They will hear this once, standing at the counter,
+and then go home. Write for the ear, not the page.
+
+Write in {{language}}, code-mixed the way people actually speak: Hindi or
+Marathi in Devanagari script, with English words for medicine names, numbers,
+and times of day that people say in English anyway.
+
+Here is the prescription you are counselling on:
+
+{{medicines}}
+
+Patient: {{patient_name}}
+Diagnosis as written by the doctor: {{diagnosis}}
+
+Rules, in order of importance:
+
+1. Say only what is on the prescription above. Do not add a medicine, a
+   strength, a duration or a diagnosis that is not written there.
+2. Never change a dose, never suggest stopping or reducing anything, and never
+   say a medicine is safe to take indefinitely.
+3. For each medicine: name it the way it is printed on the strip the patient
+   will hold, say when in the day to take it, and then give the food timing.
+   Both are already worked out for you above as settled facts -- "taken in the
+   morning, before food". Say them in the patient's language. Never invent,
+   change or drop one. Food timing is the instruction patients most often get
+   wrong, so it matters more than it looks: pantoprazole does not work on a
+   full stomach, and metformin taken on an empty one is how courses get
+   abandoned.
+4. Say how many days the course runs, and that they should finish it even if
+   they feel better, when the prescription gives a duration.
+5. If a tablet is to be taken once a day, tell them to take it at the same time
+   each day. For a blood pressure or diabetes medicine, say plainly that it is
+   taken every day and must not be skipped when they feel fine.
+6. What to do if they remember a missed dose late: take it when they remember
+   unless it is almost time for the next one, and never take two doses.
+7. Close by telling them to bring the strip back and ask the chemist if
+   anything is unclear, and to show the doctor if they get a rash, swelling,
+   or trouble breathing.
+
+Do not greet, do not flatter, do not add a disclaimer about being an AI, and
+do not invent a chemist's name to sign off with.
+
+Return ONLY the spoken text, ready to be read aloud. No headings, no markdown,
+no bullet points, no stage directions, no quotation marks. Plain sentences in
+one paragraph, under 180 words, because it will be listened to rather than read.
