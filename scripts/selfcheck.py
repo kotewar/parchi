@@ -30,6 +30,7 @@ from app.gate import (  # noqa: E402
     decide,
 )
 from app.models import Prescription, RxLine, Verdict  # noqa: E402
+from app.voice import compose_counselling, display_name  # noqa: E402
 
 FAILURES: list[str] = []
 CHECKS = 0
@@ -121,6 +122,31 @@ check(food_timing("Panadol") is None, "Panadol is a different drug and gets no r
 check(is_chronic("Glycomet GP2"), "Glycomet GP2 is chronic")
 check(is_chronic("Telma 40"), "Telma is chronic")
 check(not is_chronic("Azithral 500"), "a 5-day antibiotic is not chronic")
+
+# ---------------------------------------------------------------------------
+# Counselling names each medicine exactly once. The model sometimes returns the
+# full brand as the drug and the suffix again as the strength, and "Glycomet
+# GP2 GP2" read aloud at the counter is how a patient stops trusting the rest.
+# ---------------------------------------------------------------------------
+check(display_name(line(drug="Glycomet GP2", strength="GP2")) == "Glycomet GP2",
+      "a strength already in the name is not said twice",
+      display_name(line(drug="Glycomet GP2", strength="GP2")))
+check(display_name(line(drug="Glycomet", strength="GP2")) == "Glycomet GP2",
+      "a strength absent from the name is still appended")
+check(display_name(line(drug="Thyronorm 50mcg", strength="50mcg")) == "Thyronorm 50mcg",
+      "a name already carrying its unit is not doubled")
+check(display_name(line(drug="Telma", strength="40mg")) == "Telma 40mg",
+      "an ordinary strength is appended")
+
+spoken = compose_counselling([
+    line(drug="Glycomet GP2", strength="GP2", sig="1-0-1", days=30,
+         raw="2. Tab Glycomet GP2 1-0-1 x 30 days"),
+])
+check("GP2 GP2" not in spoken, "the spoken counselling does not stutter a name")
+
+# An unreadable page still returns something the pharmacist can read aloud,
+# rather than handing back an empty string at the counter.
+check(bool(compose_counselling([]).strip()), "empty prescription still returns text")
 
 # ---------------------------------------------------------------------------
 # End to end: the three failure modes the writeup documents, plus one clean

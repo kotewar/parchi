@@ -70,6 +70,28 @@ class VoiceUnavailable(RuntimeError):
     """Raised when text-to-speech could not be reached."""
 
 
+def display_name(line: RxLine) -> str:
+    """The medicine as the patient will see it printed on the strip.
+
+    The strength is appended only when the name does not already carry it.
+    "Glycomet GP2" with a strength of "GP2" is one medicine, not "Glycomet
+    GP2 GP2", and a name stuttered aloud is the kind of small wrongness that
+    makes a patient stop trusting everything else they were told.
+    """
+    name = line.drug or ""
+    strength = (line.strength or "").strip()
+    if not strength:
+        return name
+
+    # Compare with punctuation removed, so "Glycomet GP-2" is recognised too.
+    compact = re.sub(r"[^a-z0-9]", "", name.lower())
+    wanted = re.sub(r"[^a-z0-9]", "", strength.lower())
+    if wanted and wanted in compact:
+        return name
+
+    return f"{name} {strength}"
+
+
 def times_of_day(sig: str | None, *, lang: str = "hi") -> str | None:
     """Turn a dosing pattern into the times it names.
 
@@ -123,11 +145,7 @@ def medicines_block(lines: list[RxLine]) -> str:
         if not line.drug:
             continue
 
-        name = line.drug
-        if line.strength:
-            name = f"{name} {line.strength}"
-
-        bits = [name]
+        bits = [display_name(line)]
         when = times_of_day(line.sig, lang="en")
         if when:
             bits.append(f"taken in the {when}")
@@ -166,10 +184,6 @@ def compose_counselling(
         if not line.drug:
             continue
 
-        name = line.drug
-        if line.strength:
-            name = f"{name} {line.strength}"
-
         instructions = []
         when = times_of_day(line.sig)
         if when:
@@ -178,7 +192,7 @@ def compose_counselling(
         if timing:
             instructions.append(_FOOD_HI.get(timing, timing))
 
-        sentence = f"{index}. {name}"
+        sentence = f"{index}. {display_name(line)}"
         if instructions:
             sentence += " — " + ", ".join(instructions)
         if line.days:
