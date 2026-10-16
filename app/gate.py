@@ -22,28 +22,64 @@ from .models import GateDecision, Prescription, RxLine, Verdict
 
 _SIG_PARTS = re.compile(r"^(\d+)(-\d+){1,3}$")
 
-# A strength is digits, optionally a decimal, optionally a unit. Nothing else.
-_STRENGTH_RE = re.compile(r"^\d+(\.\d+)?(mg|mcg|mgs|g|gm|ml|iu|units|unit|%)?$")
+# A dose: digits, optionally a decimal, optionally a unit. Nothing else.
+_DOSE_RE = re.compile(r"^\d+(?:\.\d+)?(?:mg|mcg|mgs|g|gm|ml|iu|units|unit|%)?$")
+
+# An Indian combination marker: the GP2 in Glycomet GP2, which is metformin plus
+# glimepiride rather than two of anything. That is a brand suffix, not a number,
+# and completely legitimate -- the extraction prompt lists "GP2" as a valid
+# example of a strength.
+#
+# This branch is not decoration. Leaving it out made the gate flag a correct
+# answer on the demo page, which is the "gate that cries wolf" failure this file
+# warns about further down. It costs nothing in detection: every real corruption
+# this check catches puts a letter where a digit should be ("7S", "5Omcg"), and
+# no amount of suffix-matching will accept those.
+_SUFFIX_RE = re.compile(r"^[a-z]{1,3}\d+$")
+
+# Longest first, so "units" is not mistaken for "unit".
+_UNITS = ("mcg", "mgs", "mg", "gm", "ml", "iu", "units", "unit", "g", "%")
 
 # Letters that get misread as digits in handwriting, and the digit they are
-# pretending to be. "5OO" is 500. "7S" is 75. "2.S" is 2.5.
+# pretending to be. "5O" is 50. "7S" is 75. "2.S" is 2.5.
 _DIGIT_LOOKALIKES = {
     "o": "0", "O": "0", "l": "1", "I": "1", "i": "1",
     "s": "5", "S": "5", "b": "6", "B": "8", "z": "2", "Z": "2",
 }
 
 
+def _parses_as_strength(text: str) -> bool:
+    return bool(_DOSE_RE.match(text) or _SUFFIX_RE.match(text))
+
+
+def _repair_digits(text: str) -> str:
+    """Map letter-for-digit lookalikes, leaving any trailing unit alone.
+
+    Without splitting the unit off first, the "s" in "units" maps to a 5 and
+    "1O units" repairs to "10unit5" -- nonsense, and it loses a hint that was
+    actually right.
+    """
+    lowered = text.lower()
+    head, unit = lowered, ""
+    for candidate in sorted(_UNITS, key=len, reverse=True):
+        if lowered.endswith(candidate) and len(lowered) > len(candidate):
+            head = lowered[: -len(candidate)]
+            unit = lowered[-len(candidate) :]
+            break
+    return "".join(_DIGIT_LOOKALIKES.get(ch, ch) for ch in head) + unit
+
+
 def _strength_problems(strength: str | None) -> list[str]:
     """Does the strength actually parse as a strength?
 
     This closed the largest hole in the whole system, and it was found by
-    measurement. On the poisoned eval set, all seven dangerous answers the gate
-    failed to catch were the same failure: the model echoed a strength where a
-    letter had been misread as a digit, and the gate accepted it because the
-    strength field was merely *non-empty*.
+    measurement. On the poisoned eval set, four of the nine dangerous answers
+    the gate was missing were the same failure: the model returned a strength
+    where a letter had been misread as a digit, and the gate accepted it because
+    the strength field was merely *non-empty*.
 
-        "5OO"   for 500     "65O"  for 650     "7S"   for 75
-        "2.S"   for 2.5     "1O"   for 10      "25O"  for 250
+        "7S"        for 75          "5Omcg"    for 50mcg
+        "2.S"       for 2.5         "1O units" for 10 units
 
     Every one of those is a wrong dose. None of them parses as a strength, and
     so none of them should ever have been accepted.
@@ -52,13 +88,15 @@ def _strength_problems(strength: str | None) -> list[str]:
         return []
 
     compact = re.sub(r"\s+", "", strength)
-    if _STRENGTH_RE.match(compact.lower()):
+    if _parses_as_strength(compact.lower()):
         return []
 
     # If the digits are recoverable, say what we think it was. Suggesting a
-    # correction is safe; applying one silently is not.
-    guess = "".join(_DIGIT_LOOKALIKES.get(ch, ch) for ch in compact)
-    if guess != compact and _STRENGTH_RE.match(guess.lower()):
+    # correction is safe; applying one silently is not. The hint is offered only
+    # when the repair lands on an actual dose, because "xyz" drifting to "xy2" is
+    # just a lookalike map satisfying a shape and is no use to a pharmacist.
+    guess = _repair_digits(compact)
+    if guess != compact.lower() and _DOSE_RE.match(guess):
         return [
             f"strength {strength!r} does not parse as a strength "
             f"(looks like {guess!r} with a letter misread for a digit)"

@@ -78,10 +78,17 @@ gate caught 9/9 with 0 missed.
 Reproduce it, without needing a model for the gate half:
 
 ```bash
+python3 scripts/selfcheck.py                  # 47 checks, no setup, no model
 python3 scripts/eval.py --condition base      # ~6 min on an 8-core CPU
 python3 scripts/eval.py --condition primed    # with the shop's corrections
 python3 scripts/gate_recheck.py eval_base_v2.json   # re-scores, no model calls
 ```
+
+`selfcheck.py` needs nothing installed and no model running. It encodes the
+cases that were wrong at some point in this project's life, including a false
+positive that shipped: the strength check used to flag the `GP2` in
+`Glycomet GP2`, which is a correct answer. A gate that flags correct answers is
+a gate people learn to click past, and then it protects nobody.
 
 ### Two failure modes, both found by measurement
 
@@ -224,6 +231,7 @@ app/
 scripts/
   ocr_vision.swift   the OCR helper (macOS Vision)
   run_page.py        image -> OCR -> reconcile -> gate
+  selfcheck.py       regression checks, runnable with plain python3
   eval.py            the poisoned-name eval harness
   gate_recheck.py    re-apply the gate to saved answers, no model calls
   bench_ollama.py    CPU throughput benchmark
