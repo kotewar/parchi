@@ -143,6 +143,31 @@ The web app, on the shop's own machine:
 uvicorn app.main:app --reload
 ```
 
+### With or without TabPFN
+
+`requirements.txt` deliberately leaves TabPFN out, because it pulls torch and is
+a ~2 GB install. Without it the refill forecaster falls back to a damped moving
+average. With it, `plan_reorders()` fits TabPFN per medicine, walk-forward, never
+training on a week it is about to predict:
+
+```bash
+python3 -m pip install -r requirements-ml.txt
+python3 scripts/seed_demo_data.py
+curl -s localhost:8000/api/plan
+```
+
+Every row carries the method that produced it, so a fallback is never mistaken
+for a forecast:
+
+```json
+{"drug": "Ecosprin", "forecast_7d": 33.4, "chronic": true, "urgency": 53.5,
+ "method": "tabpfn (53 shop rows)"}
+```
+
+On Intel macOS, note `numpy<2` in that file. torch 2.2.2 is the last release
+with a macOS x86_64 wheel and it was built against the NumPy 1.x C ABI; NumPy 2
+makes it import cleanly and then fail to see NumPy at all.
+
 ### Without a model, or without macOS
 
 The pipeline degrades instead of failing:

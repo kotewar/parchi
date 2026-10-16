@@ -7,3 +7,15 @@
 # The container on Render does not install this. It cannot run a 3.4 GB Ollama
 # model either, so it has no use for a GPU library.
 tabpfn>=2.0
+
+# NumPy < 2 is not optional on Intel macOS, and the reason is worth writing
+# down. torch 2.2.2 is the last release with a macOS x86_64 wheel, and it was
+# compiled against the NumPy 1.x C ABI. With NumPy 2 installed, torch still
+# imports and everything looks fine, but it cannot see NumPy at all:
+#
+#     UserWarning: Failed to initialize NumPy: _ARRAY_API not found
+#
+# Every tensor-to-array conversion then fails, which is every TabPFN fit. Pinned
+# here rather than left to chance because the symptom is a warning buried in
+# import noise, and the forecaster quietly falls back instead of shouting.
+numpy<2
