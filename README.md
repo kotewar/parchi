@@ -212,6 +212,23 @@ curl -s localhost:8000/api/gate -H 'content-type: application/json' -d '{
  "reasons":["line 1 (Metformin): 'Metformin' does not appear on the page as written (OCR line reads: '2. Tab Glycomet 6P2 1-0-1 x 30 days')"]}
 ```
 
+### The spoken counselling, as actual audio
+
+`demo/counselling-hindi.mp3` is a real ElevenLabs render of
+`demo/counselling-hindi.txt` — the same 485-character Hindi script the endpoint
+produces, spoken by `eleven_multilingual_v2`. 36.8 seconds, 589 KB, 44.1 kHz.
+It is checked in so the audio claim is listenable without anyone needing a key.
+
+The transcript is generated per prescription; only the *speech* is a fixed
+recording. Medicine names are included because they have to be — a patient
+cannot be told to take a medicine the sentence refuses to name.
+
+Audio is off by default and opt-in per request (`?include_audio=true`), because
+it is the only step that sends anything off the machine, and what it sends
+necessarily contains the medicines. The hosted demo has no key set at all, so
+that endpoint returns the text and `voice_available: false` rather than spending
+credits for whoever finds the URL.
+
 ## Privacy
 
 The store is SQLite on the shop's own disk. A prescription carries a patient's
@@ -269,6 +286,9 @@ scripts/
   seed_demo_data.py  fill the store so the stock plan has something to read
 data/
   eval_poisoned.json twenty corruptions with ground truth
+demo/
+  counselling-hindi.mp3  a real ElevenLabs render of the script below it
+  counselling-hindi.txt  the 485-character Hindi counselling script
 prompts/
   extract.txt        reconciliation
   counsel.txt        spoken counselling
