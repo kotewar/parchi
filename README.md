@@ -216,7 +216,8 @@ curl -s localhost:8000/api/gate -H 'content-type: application/json' -d '{
 
 `demo/counselling-hindi.mp3` is a real ElevenLabs render of
 `demo/counselling-hindi.txt` — the same 485-character Hindi script the endpoint
-produces, spoken by `eleven_multilingual_v2`. 36.8 seconds, 589 KB, 44.1 kHz.
+produces, spoken by `eleven_multilingual_v2` in a native Hindi voice
+(`2bNrEsM0omyhLiEyOwqY`). 39.0 seconds, 610 KB, 44.1 kHz.
 It is checked in so the audio claim is listenable without anyone needing a key.
 
 The transcript is generated per prescription; only the *speech* is a fixed
